@@ -1,0 +1,18 @@
+학회 체험판 배포 체크리스트
+
+[ ] OpenAI API 프로젝트와 API 키 생성
+[ ] OpenAI 프로젝트 지출 한도·알림 설정
+[ ] Google Sheets 생성
+[ ] Apps Script Code.gs 붙여넣기
+[ ] Script Properties 3개 설정
+[ ] setupSheet 실행 및 권한 승인
+[ ] Apps Script 웹앱 /exec URL 확보
+[ ] GitHub 저장소 생성 및 파일 업로드
+[ ] Vercel에서 GitHub 저장소 Import
+[ ] Vercel 환경변수 4개 입력
+[ ] Vercel Redeploy
+[ ] 상·중·하 예시 답안 시험
+[ ] Google Sheets 로그 확인
+[ ] Vercel Production URL 확정
+[ ] QR 제작
+[ ] 안드로이드·아이폰·행사장 네트워크 시험
