@@ -1,0 +1,2515 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>서술형 LLM AI 평가도구 국제학술대회 체험판</title>
+  <meta
+    name="description"
+    content="다교과 서술형 답안을 평가하고 작성 언어에 맞춘 강점과 보완점 피드백을 제공하는 국제학술대회 체험판"
+  >
+</head>
+<body>
+<div id="llm-music-evaluator">
+  <div class="lme-shell">
+    <header class="lme-header">
+      <div class="lme-badge">LLM AI ASSESSMENT</div>
+
+      <h1>
+        <span class="lme-title-ko">
+          서술형 LLM AI 평가도구 국제학술대회 체험판
+        </span>
+        <span class="lme-title-en" lang="en">
+          Constructed-Response LLM AI Assessment Tool Demo · Powered by Dr. Shin
+        </span>
+      </h1>
+
+      <p class="lme-lead">
+        <span>
+          문항에 답안을 작성하면 AI가 점수 또는 맞춤형 피드백을 제공합니다.
+        </span>
+        <span class="lme-lead-en" lang="en">
+          Submit a response to receive AI-assisted scoring or personalized feedback.
+        </span>
+      </p>
+    </header>
+
+    <main>
+      <section
+        class="lme-card lme-question-card"
+        aria-labelledby="lme-question-section-title"
+      >
+        <div class="lme-section-label">
+          교과 및 평가 문항
+          <span class="lme-section-label-en" lang="en">
+            Subject and Assessment Question
+          </span>
+        </div>
+
+        <h2 id="lme-question-section-title" class="lme-small-title">
+          평가할 교과와 서술형 문항을 확인해 주세요.
+          <span class="lme-ui-title-en" lang="en">
+            Select a subject and review or edit the constructed-response question.
+          </span>
+        </h2>
+
+        <div class="lme-question-controls">
+          <div class="lme-field-group">
+            <label for="lme-subject">
+              <span>교과 선택</span>
+              <small lang="en">Select Subject</small>
+            </label>
+
+            <select id="lme-subject">
+              <option value="korean">국어 / Korean Language</option>
+              <option value="history">역사 / History</option>
+              <option value="science">과학 / Science</option>
+              <option value="social">사회 / Social Studies</option>
+              <option value="music" selected>음악 / Music</option>
+              <option value="art">미술 / Visual Arts</option>
+              <option value="pe">체육 / Physical Education</option>
+              <option value="philosophy">철학 / Philosophy</option>
+              <option value="essay">논술 / Essay Writing</option>
+            </select>
+          </div>
+
+          <button
+            type="button"
+            id="lme-restore-default"
+            class="lme-restore-button"
+          >
+            <span>기본 문항 복원</span>
+            <small lang="en">Restore Default</small>
+          </button>
+        </div>
+
+        <div class="lme-field-group lme-question-field">
+          <div class="lme-field-heading">
+            <label for="lme-question">
+              <span>평가 문항</span>
+              <small lang="en">Assessment Question</small>
+            </label>
+            <span id="lme-question-count">0 / 1,200</span>
+          </div>
+
+          <textarea
+            id="lme-question"
+            class="lme-question-textarea"
+            maxlength="1200"
+            rows="4"
+            spellcheck="true"
+            aria-describedby="lme-question-help"
+          ></textarea>
+
+          <p id="lme-question-help" class="lme-field-help">
+            <span>
+              기본 음악 문항은 누적 통계와 순위를 제공합니다. 교과 또는 문항을 변경하면 맞춤 피드백 모드로 전환됩니다.
+            </span>
+            <span lang="en">
+              The default music question includes cumulative statistics and ranking. Changing the subject or question switches to custom feedback mode.
+            </span>
+          </p>
+        </div>
+
+        <div id="lme-custom-mode-notice" class="lme-mode-notice" hidden>
+          <strong>
+            맞춤 문항 모드
+            <small lang="en">Custom Question Mode</small>
+          </strong>
+          <span>
+            변경된 문항에는 점수·등급·순위·평균·표준편차를 제공하지 않으며, 강점과 보완점만 제시합니다.
+          </span>
+          <span lang="en">
+            Custom questions receive strengths and areas for improvement only; scores, levels, rankings, means, and standard deviations are not provided.
+          </span>
+        </div>
+
+        <div id="lme-default-guide" class="lme-guide-grid">
+          <div class="lme-guide-item">
+            <span class="lme-guide-number">1</span>
+            <span class="lme-guide-copy">
+              <span>세 장르의 공통점</span>
+              <small lang="en">Similarities among the three genres</small>
+            </span>
+          </div>
+
+          <div class="lme-guide-item">
+            <span class="lme-guide-number">2</span>
+            <span class="lme-guide-copy">
+              <span>무대 연출과 공연 방식</span>
+              <small lang="en">Staging and performance practices</small>
+            </span>
+          </div>
+
+          <div class="lme-guide-item">
+            <span class="lme-guide-number">3</span>
+            <span class="lme-guide-copy">
+              <span>종교적·세속적 성격과 규모</span>
+              <small lang="en">Sacred or secular character and scale</small>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="lme-scale-card"
+        class="lme-card"
+        aria-labelledby="lme-scale-title"
+      >
+        <div class="lme-section-label">
+          평가 방식 선택
+          <span class="lme-section-label-en" lang="en">
+            Assessment Scale
+          </span>
+        </div>
+
+        <h2 id="lme-scale-title" class="lme-small-title">
+          결과를 어떤 척도로 확인하시겠습니까?
+          <span class="lme-ui-title-en" lang="en">
+            How would you like to view your result?
+          </span>
+        </h2>
+
+        <div
+          class="lme-segmented"
+          role="radiogroup"
+          aria-label="평가 척도 선택 / Select an assessment scale"
+        >
+          <button
+            type="button"
+            class="lme-scale-button is-active"
+            data-scale="three"
+            role="radio"
+            aria-checked="true"
+          >
+            <strong>상·중·하</strong>
+            <span>3수준 성취도</span>
+            <small lang="en">High · Medium · Low</small>
+            <small lang="en">Three-level achievement scale</small>
+          </button>
+
+          <button
+            type="button"
+            class="lme-scale-button"
+            data-scale="five"
+            role="radio"
+            aria-checked="false"
+          >
+            <strong>5점 척도</strong>
+            <span>0–5점 점수</span>
+            <small lang="en">Five-Point Scale</small>
+            <small lang="en">Scores from 0 to 5</small>
+          </button>
+        </div>
+
+        <details class="lme-rubric">
+          <summary>
+            평가 기준 살펴보기
+            <span lang="en">View Assessment Criteria</span>
+          </summary>
+
+          <div class="lme-rubric-grid">
+            <div>
+              <b>
+                장르 개념
+                <small lang="en">Genre Concepts</small>
+              </b>
+              <span>
+                세 장르의 성격을 정확히 설명했는가
+                <small lang="en">
+                  Accurately explains the characteristics of the three genres
+                </small>
+              </span>
+            </div>
+
+            <div>
+              <b>
+                공통점
+                <small lang="en">Similarities</small>
+              </b>
+              <span>
+                성악과 기악 반주 등의 공통점을 제시했는가
+                <small lang="en">
+                  Identifies shared vocal and instrumental features
+                </small>
+              </span>
+            </div>
+
+            <div>
+              <b>
+                차이점
+                <small lang="en">Differences</small>
+              </b>
+              <span>
+                무대 연출, 성격, 규모와 목적을 비교했는가
+                <small lang="en">
+                  Compares staging, character, scale, and purpose
+                </small>
+              </span>
+            </div>
+
+            <div>
+              <b>
+                구체성
+                <small lang="en">Specificity</small>
+              </b>
+              <span>
+                작품·작곡가 또는 공연 맥락을 활용했는가
+                <small lang="en">
+                  Uses works, composers, or performance contexts
+                </small>
+              </span>
+            </div>
+
+            <div>
+              <b>
+                표현
+                <small lang="en">Expression</small>
+              </b>
+              <span>
+                문장이 명확하고 비교 구조가 논리적인가
+                <small lang="en">
+                  Presents ideas clearly and logically
+                </small>
+              </span>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="lme-card" aria-labelledby="lme-answer-title">
+        <div class="lme-section-label">
+          답안 작성
+          <span class="lme-section-label-en" lang="en">
+            Write Your Response
+          </span>
+        </div>
+
+        <div class="lme-answer-heading">
+          <h2 id="lme-answer-title" class="lme-small-title">
+            자신의 언어로 자유롭게 서술해 주세요.
+            <span class="lme-ui-title-en" lang="en">
+              Please respond freely in your preferred language.
+            </span>
+          </h2>
+
+          <span id="lme-char-count">0 / 1,000</span>
+        </div>
+
+        <textarea
+          id="lme-answer"
+          maxlength="1000"
+          rows="10"
+          spellcheck="true"
+          aria-label="답안 작성 / Write your response"
+          placeholder="예: 세 장르는 모두 성악과 기악 반주를 활용하지만… / Example: All three genres combine vocal music with instrumental accompaniment, but…"
+        ></textarea>
+
+        <div
+          id="lme-validation"
+          class="lme-validation"
+          role="alert"
+          aria-live="polite"
+        ></div>
+
+        <label class="lme-consent">
+          <input type="checkbox" id="lme-consent-checkbox">
+          <span class="lme-consent-copy">
+            <span>
+              본 체험은 익명으로 진행되며, 이름·연락처 등 개인정보를 입력하지 않았음을 확인합니다.
+            </span>
+            <small lang="en">
+              I confirm that this anonymous demonstration does not contain personal information such as my name or contact details.
+            </small>
+          </span>
+        </label>
+
+        <label
+          id="lme-custom-ack-wrap"
+          class="lme-consent lme-custom-ack"
+          hidden
+        >
+          <input type="checkbox" id="lme-custom-ack-checkbox">
+          <span class="lme-consent-copy">
+            <span>
+              문항이 변경되어 표준편차·순위 기능을 지원하지 않음을 확인합니다.
+            </span>
+            <small lang="en">
+              I understand that standard deviation and ranking are unavailable when the subject or question is changed.
+            </small>
+          </span>
+        </label>
+
+        <p id="lme-ready-note" class="lme-ready-note">
+          답안과 확인 항목을 완료하면 버튼이 활성화됩니다.
+          <span lang="en">
+            Complete the response and confirmation items to enable the button.
+          </span>
+        </p>
+
+        <button
+          type="button"
+          id="lme-submit"
+          class="lme-submit"
+          disabled
+        >
+          <span class="lme-submit-text">
+            <span>AI 평가 시작하기</span>
+            <small lang="en">Start AI Assessment</small>
+          </span>
+          <span class="lme-submit-arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="lme-notice">
+          <span>
+            본 결과는 학회 시연을 위한 AI 보조 평가이며, 실제 교육평가의 최종 판단을 대신하지 않습니다.
+          </span>
+          <span lang="en">
+            This AI-assisted result is provided for conference demonstration purposes and does not replace final educational assessment by an instructor.
+          </span>
+        </p>
+      </section>
+
+      <section
+        id="lme-loading"
+        class="lme-card lme-loading"
+        hidden
+        aria-live="polite"
+      >
+        <div class="lme-loader" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+
+        <h2>
+          답안을 분석하고 있습니다.
+          <small lang="en">Analyzing your response.</small>
+        </h2>
+
+        <p id="lme-loading-text">
+          문항의 요구와 답안의 핵심 내용을 확인하고 있습니다.
+          <span lang="en">
+            Reviewing the question requirements and the main ideas in the response.
+          </span>
+        </p>
+
+        <div class="lme-progress">
+          <div id="lme-progress-bar"></div>
+        </div>
+      </section>
+
+      <section
+        id="lme-result"
+        class="lme-result"
+        hidden
+        aria-labelledby="lme-result-title"
+      >
+        <div class="lme-card lme-result-heading">
+          <div class="lme-result-topline">
+            <div id="lme-default-result-heading">
+              <div class="lme-section-label">
+                AI 평가 결과
+                <span class="lme-section-label-en" lang="en">
+                  AI Assessment Result
+                </span>
+              </div>
+
+              <h2 id="lme-result-title">
+                답안 분석이 완료되었습니다.
+                <small lang="en">
+                  Your response has been analyzed.
+                </small>
+              </h2>
+            </div>
+
+            <div id="lme-custom-result-heading" hidden>
+              <div class="lme-section-label">
+                맞춤 문항 피드백
+                <span class="lme-section-label-en" lang="en">
+                  Custom Question Feedback
+                </span>
+              </div>
+
+              <h2>
+                강점과 보완점 분석이 완료되었습니다.
+                <small lang="en">
+                  Your strengths and areas for improvement are ready.
+                </small>
+              </h2>
+
+              <p id="lme-custom-result-subject"></p>
+            </div>
+
+            <span id="lme-review-badge" class="lme-review-badge" hidden>
+              교사 검토 권장
+              <small lang="en">Instructor Review Recommended</small>
+            </span>
+          </div>
+        </div>
+
+        <div id="lme-default-stats" class="lme-card lme-result-hero">
+          <div class="lme-score-layout">
+            <div
+              class="lme-score-circle"
+              aria-label="평가 점수 / Assessment score"
+            >
+              <div id="lme-score-main">상</div>
+              <small id="lme-score-sub">
+                3수준 평가 / Three-Level Assessment
+              </small>
+            </div>
+
+            <div class="lme-standing">
+              <div class="lme-standing-summary">
+                <div class="lme-standing-item">
+                  <span>
+                    전체 응답자
+                    <small lang="en">Total Responses</small>
+                  </span>
+                  <strong id="lme-total">0</strong>
+                </div>
+
+                <div class="lme-standing-item">
+                  <span>
+                    현재 순위
+                    <small lang="en">Current Rank</small>
+                  </span>
+                  <strong id="lme-rank">0</strong>
+                </div>
+              </div>
+
+              <div class="lme-percent-row">
+                <span>
+                  상위 위치
+                  <small lang="en">Relative Position</small>
+                </span>
+                <strong id="lme-top-percent">0%</strong>
+              </div>
+
+              <div class="lme-percent-track">
+                <div id="lme-percent-fill"></div>
+              </div>
+
+              <p class="lme-standing-note">
+                <span>
+                  제출 시점 기준 통계이며, 이후 응답에 따라 순위가 달라질 수 있습니다.
+                </span>
+                <span lang="en">
+                  Statistics reflect the time of submission and may change as additional responses are received.
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div class="lme-stat-grid">
+            <div class="lme-stat">
+              <span>
+                전체 평균
+                <small lang="en">Overall Mean</small>
+              </span>
+              <strong id="lme-mean">-</strong>
+            </div>
+
+            <div class="lme-stat">
+              <span>
+                표준편차
+                <small lang="en">Standard Deviation</small>
+              </span>
+              <strong id="lme-std">-</strong>
+            </div>
+
+            <div class="lme-stat">
+              <span>
+                표준점수
+                <small lang="en">Standard Score</small>
+              </span>
+              <strong id="lme-zscore">-</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="lme-feedback-grid">
+          <article class="lme-card lme-feedback lme-strength">
+            <div class="lme-feedback-icon" aria-hidden="true">✓</div>
+            <div>
+              <div class="lme-section-label">
+                강점
+                <span class="lme-section-label-en" lang="en">
+                  Strengths
+                </span>
+              </div>
+              <p id="lme-strength-text"></p>
+            </div>
+          </article>
+
+          <article class="lme-card lme-feedback lme-improvement">
+            <div class="lme-feedback-icon" aria-hidden="true">↗</div>
+            <div>
+              <div class="lme-section-label">
+                보완점
+                <span class="lme-section-label-en" lang="en">
+                  Areas for Improvement
+                </span>
+              </div>
+              <p id="lme-improvement-text"></p>
+            </div>
+          </article>
+        </div>
+
+        <div class="lme-result-actions">
+          <button
+            type="button"
+            id="lme-retry"
+            class="lme-secondary-button"
+          >
+            <span>다른 답안으로 다시 체험하기</span>
+            <small lang="en">Try Another Response</small>
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<style>
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    background: #ffffff;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  #llm-music-evaluator {
+    --lme-primary: #243b73;
+    --lme-primary-2: #3558a8;
+    --lme-accent: #7c5cff;
+    --lme-bg: #f4f7fb;
+    --lme-card: #ffffff;
+    --lme-text: #172033;
+    --lme-muted: #687386;
+    --lme-line: #e3e8f1;
+    --lme-success: #1f8a5b;
+    --lme-warning: #b66b11;
+    --lme-danger: #b43a45;
+    width: 100%;
+    color: var(--lme-text);
+    font-family:
+      Pretendard,
+      "Noto Sans KR",
+      "Apple SD Gothic Neo",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+    line-height: 1.65;
+    word-break: keep-all;
+  }
+
+  #llm-music-evaluator * {
+    box-sizing: border-box;
+  }
+
+  #llm-music-evaluator button,
+  #llm-music-evaluator textarea,
+  #llm-music-evaluator select,
+  #llm-music-evaluator input {
+    font: inherit;
+  }
+
+  #llm-music-evaluator small[lang="en"],
+  #llm-music-evaluator span[lang="en"] {
+    word-break: normal;
+  }
+
+  #llm-music-evaluator .lme-shell {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 42px 18px 70px;
+    border-radius: 26px;
+    background:
+      radial-gradient(
+        circle at 12% 0%,
+        rgba(124, 92, 255, .11),
+        transparent 30%
+      ),
+      radial-gradient(
+        circle at 93% 8%,
+        rgba(53, 88, 168, .12),
+        transparent 28%
+      ),
+      var(--lme-bg);
+  }
+
+  #llm-music-evaluator .lme-header {
+    padding: 16px 8px 30px;
+    text-align: center;
+  }
+
+  #llm-music-evaluator .lme-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 5px 13px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(36, 59, 115, .18);
+    border-radius: 999px;
+    color: var(--lme-primary);
+    background: rgba(255, 255, 255, .72);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .08em;
+  }
+
+  #llm-music-evaluator h1,
+  #llm-music-evaluator h2,
+  #llm-music-evaluator p {
+    margin-top: 0;
+  }
+
+  #llm-music-evaluator .lme-header h1 {
+    margin-bottom: 10px;
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1.22;
+    letter-spacing: -.035em;
+  }
+
+  #llm-music-evaluator .lme-title-ko,
+  #llm-music-evaluator .lme-title-en,
+  #llm-music-evaluator .lme-lead span,
+  #llm-music-evaluator .lme-ui-title-en {
+    display: block;
+  }
+
+  #llm-music-evaluator .lme-title-en {
+    margin-top: 7px;
+    color: #53617d;
+    font-size: .47em;
+    font-weight: 750;
+    line-height: 1.35;
+    letter-spacing: .015em;
+  }
+
+  #llm-music-evaluator .lme-lead {
+    max-width: 680px;
+    margin: 0 auto;
+    color: var(--lme-muted);
+    font-size: 16px;
+  }
+
+  #llm-music-evaluator .lme-lead-en {
+    margin-top: 5px;
+    color: #758098;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  #llm-music-evaluator .lme-card {
+    margin-bottom: 18px;
+    padding: 27px;
+    border: 1px solid rgba(227, 232, 241, .92);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, .96);
+    box-shadow: 0 14px 38px rgba(37, 54, 92, .07);
+  }
+
+  #llm-music-evaluator .lme-question-card {
+    border-top: 4px solid var(--lme-primary);
+  }
+
+  #llm-music-evaluator .lme-section-label {
+    margin-bottom: 8px;
+    color: var(--lme-primary-2);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .02em;
+  }
+
+  #llm-music-evaluator .lme-section-label-en {
+    margin-left: 7px;
+    color: #71809f;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+  }
+
+  #llm-music-evaluator .lme-small-title {
+    margin-bottom: 17px;
+    font-size: 18px;
+    line-height: 1.48;
+  }
+
+  #llm-music-evaluator .lme-ui-title-en {
+    margin-top: 3px;
+    color: #727d93;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.45;
+    letter-spacing: 0;
+  }
+
+  #llm-music-evaluator .lme-question-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 16px;
+  }
+
+  #llm-music-evaluator .lme-field-group label,
+  #llm-music-evaluator .lme-field-heading label {
+    display: block;
+    margin-bottom: 7px;
+    color: #34415b;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  #llm-music-evaluator .lme-field-group label span,
+  #llm-music-evaluator .lme-field-group label small,
+  #llm-music-evaluator .lme-field-heading label span,
+  #llm-music-evaluator .lme-field-heading label small {
+    display: block;
+  }
+
+  #llm-music-evaluator .lme-field-group label small,
+  #llm-music-evaluator .lme-field-heading label small {
+    margin-top: 1px;
+    color: #7d879a;
+    font-size: 10.5px;
+    font-weight: 650;
+  }
+
+  #llm-music-evaluator select {
+    width: 100%;
+    min-height: 50px;
+    padding: 10px 42px 10px 14px;
+    border: 1px solid #ccd5e5;
+    border-radius: 13px;
+    outline: none;
+    color: var(--lme-text);
+    background: #fbfcfe;
+    cursor: pointer;
+  }
+
+  #llm-music-evaluator select:focus,
+  #llm-music-evaluator textarea:focus {
+    border-color: var(--lme-primary-2);
+    box-shadow: 0 0 0 4px rgba(53, 88, 168, .10);
+  }
+
+  #llm-music-evaluator .lme-restore-button {
+    min-height: 50px;
+    padding: 8px 14px;
+    border: 1px solid #cdd5e4;
+    border-radius: 13px;
+    color: var(--lme-primary);
+    background: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  #llm-music-evaluator .lme-restore-button span,
+  #llm-music-evaluator .lme-restore-button small {
+    display: block;
+  }
+
+  #llm-music-evaluator .lme-restore-button small {
+    color: #7a859b;
+    font-size: 9.5px;
+  }
+
+  #llm-music-evaluator .lme-field-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  #llm-music-evaluator .lme-field-heading > span {
+    padding-bottom: 7px;
+    color: var(--lme-muted);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  #llm-music-evaluator textarea {
+    width: 100%;
+    padding: 17px 18px;
+    resize: vertical;
+    border: 1px solid #ccd5e5;
+    border-radius: 16px;
+    outline: none;
+    color: var(--lme-text);
+    background: #fbfcfe;
+    font-size: 15px;
+    line-height: 1.8;
+    transition:
+      border-color .18s ease,
+      box-shadow .18s ease;
+  }
+
+  #llm-music-evaluator .lme-question-textarea {
+    min-height: 122px;
+  }
+
+  #llm-music-evaluator #lme-answer {
+    min-height: 260px;
+  }
+
+  #llm-music-evaluator textarea::placeholder {
+    color: #9ba5b4;
+  }
+
+  #llm-music-evaluator .lme-field-help {
+    margin: 8px 0 0;
+    color: #7f899a;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  #llm-music-evaluator .lme-field-help span {
+    display: block;
+  }
+
+  #llm-music-evaluator .lme-mode-notice {
+    margin: 16px 0;
+    padding: 14px 15px;
+    border: 1px solid #e6d4a6;
+    border-radius: 14px;
+    color: #6f541c;
+    background: #fff9e9;
+    font-size: 12px;
+  }
+
+  #llm-music-evaluator .lme-mode-notice strong,
+  #llm-music-evaluator .lme-mode-notice span,
+  #llm-music-evaluator .lme-mode-notice small {
+    display: block;
+  }
+
+  #llm-music-evaluator .lme-mode-notice strong {
+    margin-bottom: 4px;
+    color: #8a5e0a;
+    font-size: 13px;
+  }
+
+  #llm-music-evaluator .lme-mode-notice strong small {
+    color: #95763b;
+    font-size: 10px;
+  }
+
+  #llm-music-evaluator .lme-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  #llm-music-evaluator .lme-guide-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 58px;
+    padding: 10px 12px;
+    border-radius: 13px;
+    color: #33405a;
+    background: #f5f7fc;
+    font-size: 13px;
+    font-weight: 650;
+  }
+
+  #llm-music-evaluator .lme-guide-number {
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 25px;
+    height: 25px;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--lme-primary);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  #llm-music-evaluator .lme-guide-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  #llm-music-evaluator .lme-guide-copy small {
+    color: #737e94;
+    font-size: 9.5px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  #llm-music-evaluator .lme-segmented {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  #llm-music-evaluator .lme-scale-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    min-height: 108px;
+    padding: 15px 17px;
+    border: 1px solid var(--lme-line);
+    border-radius: 16px;
+    color: var(--lme-text);
+    background: #fff;
+    cursor: pointer;
+    transition:
+      transform .18s ease,
+      border-color .18s ease,
+      box-shadow .18s ease,
+      background .18s ease;
+  }
+
+  #llm-music-evaluator .lme-scale-button:hover {
+    transform: translateY(-1px);
+    border-color: #b7c3dd;
+  }
+
+  #llm-music-evaluator .lme-scale-button.is-active {
+    border-color: var(--lme-primary-2);
+    background: linear-gradient(135deg, #f4f7ff, #f9f7ff);
+    box-shadow: inset 0 0 0 1px rgba(53, 88, 168, .15);
+  }
+
+  #llm-music-evaluator .lme-scale-button strong {
+    color: var(--lme-primary);
+    font-size: 17px;
+  }
+
+  #llm-music-evaluator .lme-scale-button span {
+    color: var(--lme-muted);
+    font-size: 13px;
+  }
+
+  #llm-music-evaluator .lme-scale-button small {
+    color: #788398;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  #llm-music-evaluator .lme-rubric {
+    margin-top: 16px;
+    border-top: 1px solid var(--lme-line);
+  }
+
+  #llm-music-evaluator .lme-rubric summary {
+    padding-top: 14px;
+    color: var(--lme-primary-2);
+    font-size: 14px;
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  #llm-music-evaluator .lme-rubric summary span {
+    margin-left: 6px;
+    color: #71809f;
+    font-size: 10.5px;
+  }
+
+  #llm-music-evaluator .lme-rubric-grid {
+    display: grid;
+    gap: 9px;
+    margin-top: 13px;
+  }
+
+  #llm-music-evaluator .lme-rubric-grid > div {
+    display: grid;
+    grid-template-columns: 125px 1fr;
+    gap: 10px;
+    padding: 11px 13px;
+    border-radius: 12px;
+    background: #f7f8fc;
+    font-size: 13px;
+  }
+
+  #llm-music-evaluator .lme-rubric-grid b {
+    color: var(--lme-primary);
+  }
+
+  #llm-music-evaluator .lme-rubric-grid span {
+    color: var(--lme-muted);
+  }
+
+  #llm-music-evaluator .lme-rubric-grid small {
+    display: block;
+    margin-top: 2px;
+    color: #8791a3;
+    font-size: 9.5px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  #llm-music-evaluator .lme-answer-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  #llm-music-evaluator #lme-char-count {
+    padding-bottom: 17px;
+    color: var(--lme-muted);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  #llm-music-evaluator .lme-validation {
+    min-height: 24px;
+    padding-top: 7px;
+    color: var(--lme-danger);
+    font-size: 13px;
+    font-weight: 650;
+    white-space: normal;
+  }
+
+  #llm-music-evaluator .lme-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 8px 0 12px;
+    padding: 13px 14px;
+    border-radius: 13px;
+    color: var(--lme-muted);
+    background: #f6f8fb;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  #llm-music-evaluator .lme-custom-ack {
+    border: 1px solid #ead9aa;
+    background: #fff9e9;
+  }
+
+  #llm-music-evaluator .lme-consent input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: var(--lme-primary-2);
+  }
+
+  #llm-music-evaluator .lme-consent-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  #llm-music-evaluator .lme-consent-copy small {
+    color: #8791a3;
+    font-size: 10.5px;
+    line-height: 1.45;
+  }
+
+  #llm-music-evaluator .lme-ready-note {
+    margin: 5px 0 10px;
+    color: #7d8799;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  #llm-music-evaluator .lme-ready-note span {
+    display: block;
+    font-size: 10px;
+  }
+
+  #llm-music-evaluator .lme-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 62px;
+    border: 0;
+    border-radius: 16px;
+    color: #fff;
+    background:
+      linear-gradient(
+        135deg,
+        var(--lme-primary),
+        var(--lme-accent)
+      );
+    box-shadow: 0 12px 25px rgba(63, 68, 158, .23);
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition:
+      transform .18s ease,
+      box-shadow .18s ease,
+      opacity .18s ease;
+  }
+
+  #llm-music-evaluator .lme-submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 28px rgba(63, 68, 158, .28);
+  }
+
+  #llm-music-evaluator .lme-submit:disabled {
+    opacity: .48;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  #llm-music-evaluator .lme-submit.is-loading:disabled {
+    opacity: .7;
+    cursor: wait;
+  }
+
+  #llm-music-evaluator .lme-submit-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.25;
+  }
+
+  #llm-music-evaluator .lme-submit-text small {
+    margin-top: 2px;
+    font-size: 10.5px;
+    font-weight: 650;
+    opacity: .84;
+  }
+
+  #llm-music-evaluator .lme-submit-arrow {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  #llm-music-evaluator .lme-notice {
+    margin: 13px 0 0;
+    color: #8993a4;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  #llm-music-evaluator .lme-notice span {
+    display: block;
+  }
+
+  #llm-music-evaluator .lme-notice span[lang="en"] {
+    margin-top: 3px;
+    font-size: 10px;
+  }
+
+  #llm-music-evaluator .lme-loading {
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  #llm-music-evaluator .lme-loading h2 {
+    margin: 18px 0 5px;
+    font-size: 21px;
+  }
+
+  #llm-music-evaluator .lme-loading h2 small {
+    display: block;
+    margin-top: 3px;
+    color: #758098;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  #llm-music-evaluator .lme-loading p {
+    color: var(--lme-muted);
+    font-size: 14px;
+  }
+
+  #llm-music-evaluator .lme-loading p span {
+    display: block;
+    margin-top: 2px;
+    color: #8791a4;
+    font-size: 11px;
+  }
+
+  #llm-music-evaluator .lme-loader {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+  }
+
+  #llm-music-evaluator .lme-loader span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--lme-primary-2);
+    animation: lme-bounce 1.05s infinite ease-in-out;
+  }
+
+  #llm-music-evaluator .lme-loader span:nth-child(2) {
+    animation-delay: .14s;
+  }
+
+  #llm-music-evaluator .lme-loader span:nth-child(3) {
+    animation-delay: .28s;
+  }
+
+  @keyframes lme-bounce {
+    0%,
+    70%,
+    100% {
+      transform: translateY(0);
+      opacity: .35;
+    }
+
+    35% {
+      transform: translateY(-9px);
+      opacity: 1;
+    }
+  }
+
+  #llm-music-evaluator .lme-progress {
+    max-width: 390px;
+    height: 7px;
+    margin: 20px auto 0;
+    overflow: hidden;
+    border-radius: 99px;
+    background: #e9edf5;
+  }
+
+  #llm-music-evaluator #lme-progress-bar {
+    width: 8%;
+    height: 100%;
+    border-radius: inherit;
+    background:
+      linear-gradient(
+        90deg,
+        var(--lme-primary-2),
+        var(--lme-accent)
+      );
+    transition: width .7s ease;
+  }
+
+  #llm-music-evaluator .lme-result {
+    scroll-margin-top: 16px;
+  }
+
+  #llm-music-evaluator .lme-result-heading {
+    border-top: 4px solid var(--lme-accent);
+  }
+
+  #llm-music-evaluator .lme-result-topline {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+  }
+
+  #llm-music-evaluator .lme-result-topline h2 {
+    margin-bottom: 0;
+    font-size: 22px;
+  }
+
+  #llm-music-evaluator .lme-result-topline h2 small {
+    display: block;
+    margin-top: 4px;
+    color: #6f7a91;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  #llm-music-evaluator #lme-custom-result-subject {
+    margin: 9px 0 0;
+    color: #758097;
+    font-size: 12px;
+  }
+
+  #llm-music-evaluator .lme-review-badge {
+    padding: 7px 10px;
+    border-radius: 12px;
+    color: #8a4e09;
+    background: #fff0d7;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  #llm-music-evaluator .lme-review-badge small {
+    display: block;
+    margin-top: 1px;
+    font-size: 8.5px;
+    font-weight: 650;
+  }
+
+  #llm-music-evaluator .lme-result-hero {
+    border-top: 4px solid var(--lme-primary-2);
+  }
+
+  #llm-music-evaluator .lme-score-layout {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 27px;
+    align-items: center;
+  }
+
+  #llm-music-evaluator .lme-score-circle {
+    display: grid;
+    place-content: center;
+    width: 180px;
+    height: 180px;
+    border: 13px solid #e8ebff;
+    border-top-color: var(--lme-accent);
+    border-right-color: var(--lme-primary-2);
+    border-radius: 50%;
+    text-align: center;
+    box-shadow:
+      inset 0 0 0 1px rgba(53, 88, 168, .08);
+  }
+
+  #llm-music-evaluator #lme-score-main {
+    color: var(--lme-primary);
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -.045em;
+  }
+
+  #llm-music-evaluator #lme-score-main small {
+    display: block;
+    margin-top: 4px;
+    color: #68758d;
+    font-size: 14px;
+    font-weight: 750;
+    letter-spacing: 0;
+  }
+
+  #llm-music-evaluator #lme-score-sub {
+    display: block;
+    margin-top: 7px;
+    color: var(--lme-muted);
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  #llm-music-evaluator .lme-standing-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 17px;
+  }
+
+  #llm-music-evaluator .lme-standing-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f6f8fc;
+  }
+
+  #llm-music-evaluator .lme-standing-item span {
+    color: #5f6b82;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  #llm-music-evaluator .lme-standing-item small,
+  #llm-music-evaluator .lme-stat small {
+    display: block;
+    margin-top: 2px;
+    color: #8a94a7;
+    font-size: 9.5px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  #llm-music-evaluator .lme-standing-item strong {
+    color: var(--lme-primary);
+    font-size: 20px;
+  }
+
+  #llm-music-evaluator .lme-percent-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    color: var(--lme-muted);
+    font-size: 13px;
+  }
+
+  #llm-music-evaluator .lme-percent-row span small {
+    margin-left: 5px;
+    color: #8993a5;
+    font-size: 9.5px;
+    font-weight: 600;
+  }
+
+  #llm-music-evaluator .lme-percent-row strong {
+    color: var(--lme-primary-2);
+    font-size: 17px;
+  }
+
+  #llm-music-evaluator .lme-percent-track {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: #e8edf5;
+  }
+
+  #llm-music-evaluator #lme-percent-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background:
+      linear-gradient(
+        90deg,
+        var(--lme-primary-2),
+        var(--lme-accent)
+      );
+    transition: width .75s ease;
+  }
+
+  #llm-music-evaluator .lme-standing-note {
+    margin: 10px 0 0;
+    color: #8c96a7;
+    font-size: 10px;
+  }
+
+  #llm-music-evaluator .lme-standing-note span {
+    display: block;
+  }
+
+  #llm-music-evaluator .lme-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 25px;
+  }
+
+  #llm-music-evaluator .lme-stat {
+    padding: 13px 14px;
+    border-radius: 14px;
+    background: #f5f7fb;
+    text-align: center;
+  }
+
+  #llm-music-evaluator .lme-stat span {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--lme-muted);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  #llm-music-evaluator .lme-stat strong {
+    color: var(--lme-primary);
+    font-size: 19px;
+  }
+
+  #llm-music-evaluator .lme-feedback-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  #llm-music-evaluator .lme-feedback {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 13px;
+    margin-bottom: 0;
+  }
+
+  #llm-music-evaluator .lme-feedback-icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  #llm-music-evaluator .lme-strength .lme-feedback-icon {
+    color: var(--lme-success);
+    background: #e8f7f0;
+  }
+
+  #llm-music-evaluator .lme-improvement .lme-feedback-icon {
+    color: var(--lme-warning);
+    background: #fff3df;
+  }
+
+  #llm-music-evaluator .lme-feedback p {
+    margin-bottom: 0;
+    color: #3e495c;
+    font-size: 14px;
+    line-height: 1.78;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  #llm-music-evaluator .lme-result-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+  }
+
+  #llm-music-evaluator .lme-secondary-button {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 48px;
+    padding: 9px 18px;
+    border: 1px solid #cdd5e4;
+    border-radius: 13px;
+    color: var(--lme-primary);
+    background: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.25;
+    cursor: pointer;
+  }
+
+  #llm-music-evaluator .lme-secondary-button small {
+    margin-top: 2px;
+    color: #71809f;
+    font-size: 9.5px;
+    font-weight: 600;
+  }
+
+  #llm-music-evaluator [hidden] {
+    display: none !important;
+  }
+
+  @media (max-width: 680px) {
+    #llm-music-evaluator .lme-shell {
+      padding: 24px 12px 45px;
+      border-radius: 18px;
+    }
+
+    #llm-music-evaluator .lme-header {
+      padding: 12px 4px 23px;
+    }
+
+    #llm-music-evaluator .lme-title-en {
+      margin-top: 6px;
+      font-size: 13px;
+    }
+
+    #llm-music-evaluator .lme-lead-en {
+      font-size: 12px;
+    }
+
+    #llm-music-evaluator .lme-card {
+      padding: 20px 17px;
+      border-radius: 18px;
+    }
+
+    #llm-music-evaluator .lme-question-controls {
+      grid-template-columns: 1fr;
+    }
+
+    #llm-music-evaluator .lme-restore-button {
+      width: 100%;
+    }
+
+    #llm-music-evaluator .lme-guide-grid,
+    #llm-music-evaluator .lme-feedback-grid {
+      grid-template-columns: 1fr;
+    }
+
+    #llm-music-evaluator .lme-segmented {
+      gap: 8px;
+    }
+
+    #llm-music-evaluator .lme-scale-button {
+      min-height: 116px;
+      padding: 13px;
+    }
+
+    #llm-music-evaluator .lme-rubric-grid > div {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+
+    #llm-music-evaluator .lme-answer-heading {
+      display: block;
+    }
+
+    #llm-music-evaluator #lme-char-count {
+      display: block;
+      padding: 0 0 8px;
+      text-align: right;
+    }
+
+    #llm-music-evaluator .lme-score-layout {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: 20px;
+    }
+
+    #llm-music-evaluator .lme-standing {
+      width: 100%;
+    }
+
+    #llm-music-evaluator .lme-stat-grid {
+      grid-template-columns: 1fr;
+    }
+
+    #llm-music-evaluator .lme-result-topline {
+      display: block;
+    }
+
+    #llm-music-evaluator .lme-review-badge {
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    #llm-music-evaluator .lme-standing-summary {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    #llm-music-evaluator .lme-standing-item {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  const CONFIG = {
+    DEMO_MODE: false,
+    API_URL: "/api/evaluate",
+    MIN_QUESTION_CHARS: 10,
+    MIN_ANSWER_CHARS: 40,
+    REQUEST_TIMEOUT_MS: 90000
+  };
+
+  const DEFAULT_SUBJECT = "music";
+
+  const DEFAULT_QUESTION_KO =
+    "오페라, 칸타타, 오라토리오의 공통점과 차이점에 대해서 서술해주세요.";
+
+  const DEFAULT_QUESTION_EN =
+    "Describe the similarities and differences among opera, cantata, and oratorio.";
+
+  const DEFAULT_QUESTION =
+    DEFAULT_QUESTION_KO + "\n" + DEFAULT_QUESTION_EN;
+
+  const SUBJECT_LABELS = {
+    korean: {
+      ko: "국어",
+      en: "Korean Language"
+    },
+    history: {
+      ko: "역사",
+      en: "History"
+    },
+    science: {
+      ko: "과학",
+      en: "Science"
+    },
+    social: {
+      ko: "사회",
+      en: "Social Studies"
+    },
+    music: {
+      ko: "음악",
+      en: "Music"
+    },
+    art: {
+      ko: "미술",
+      en: "Visual Arts"
+    },
+    pe: {
+      ko: "체육",
+      en: "Physical Education"
+    },
+    philosophy: {
+      ko: "철학",
+      en: "Philosophy"
+    },
+    essay: {
+      ko: "논술",
+      en: "Essay Writing"
+    }
+  };
+
+  const root =
+    document.getElementById("llm-music-evaluator");
+
+  if (!root) return;
+
+  const subjectEl = root.querySelector("#lme-subject");
+  const questionEl = root.querySelector("#lme-question");
+  const questionCountEl =
+    root.querySelector("#lme-question-count");
+  const restoreEl =
+    root.querySelector("#lme-restore-default");
+  const customModeNotice =
+    root.querySelector("#lme-custom-mode-notice");
+  const defaultGuide =
+    root.querySelector("#lme-default-guide");
+  const scaleCard =
+    root.querySelector("#lme-scale-card");
+  const answerEl = root.querySelector("#lme-answer");
+  const countEl =
+    root.querySelector("#lme-char-count");
+  const consentEl =
+    root.querySelector("#lme-consent-checkbox");
+  const customAckWrap =
+    root.querySelector("#lme-custom-ack-wrap");
+  const customAckEl =
+    root.querySelector("#lme-custom-ack-checkbox");
+  const readyNote =
+    root.querySelector("#lme-ready-note");
+  const submitEl = root.querySelector("#lme-submit");
+  const validationEl =
+    root.querySelector("#lme-validation");
+  const loadingEl =
+    root.querySelector("#lme-loading");
+  const resultEl =
+    root.querySelector("#lme-result");
+  const defaultResultHeading =
+    root.querySelector("#lme-default-result-heading");
+  const customResultHeading =
+    root.querySelector("#lme-custom-result-heading");
+  const customResultSubject =
+    root.querySelector("#lme-custom-result-subject");
+  const defaultStats =
+    root.querySelector("#lme-default-stats");
+  const scaleButtons =
+    root.querySelectorAll(".lme-scale-button");
+  const progressBar =
+    root.querySelector("#lme-progress-bar");
+  const loadingText =
+    root.querySelector("#lme-loading-text");
+
+  let selectedScale = "three";
+  let customMode = false;
+  let isSubmitting = false;
+  let progressTimer = null;
+  let loadingTextTimer = null;
+
+  const defaultLoadingMessages = [
+    {
+      ko: "핵심 개념과 비교 기준을 확인하고 있습니다.",
+      en: "Reviewing key concepts and comparison criteria."
+    },
+    {
+      ko: "루브릭에 따라 답안의 강점과 보완점을 구성하고 있습니다.",
+      en: "Generating strengths and areas for improvement using the rubric."
+    },
+    {
+      ko: "누적 응답 통계를 계산하고 있습니다.",
+      en: "Calculating cumulative response statistics."
+    }
+  ];
+
+  const customLoadingMessages = [
+    {
+      ko: "선택한 교과와 문항의 요구를 확인하고 있습니다.",
+      en: "Reviewing the selected subject and question requirements."
+    },
+    {
+      ko: "답안에서 확인되는 강점을 분석하고 있습니다.",
+      en: "Analyzing the strengths shown in the response."
+    },
+    {
+      ko: "가장 중요한 보완 방향을 구성하고 있습니다.",
+      en: "Preparing the most important areas for improvement."
+    }
+  ];
+
+  function normalizeQuestion(value) {
+    return String(value || "")
+      .normalize("NFKC")
+      .toLowerCase()
+      .replace(/[“”"'`]/g, "")
+      .replace(/[.,!?…:;·•()[\]{}]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function isDefaultQuestion(value) {
+    const normalized = normalizeQuestion(value);
+
+    return [
+      DEFAULT_QUESTION_KO,
+      DEFAULT_QUESTION_EN,
+      DEFAULT_QUESTION
+    ].some(function (candidate) {
+      return normalizeQuestion(candidate) === normalized;
+    });
+  }
+
+  function determineCustomMode() {
+    return (
+      subjectEl.value !== DEFAULT_SUBJECT ||
+      !isDefaultQuestion(questionEl.value)
+    );
+  }
+
+  function setScale(scale) {
+    selectedScale = scale;
+
+    scaleButtons.forEach(function (button) {
+      const active =
+        button.dataset.scale === scale;
+
+      button.classList.toggle(
+        "is-active",
+        active
+      );
+
+      button.setAttribute(
+        "aria-checked",
+        String(active)
+      );
+    });
+  }
+
+  function updateCounters() {
+    questionCountEl.textContent =
+      questionEl.value.length.toLocaleString("ko-KR") +
+      " / 1,200";
+
+    countEl.textContent =
+      answerEl.value.length.toLocaleString("ko-KR") +
+      " / 1,000";
+  }
+
+  function updateMode() {
+    const nextCustomMode = determineCustomMode();
+
+    if (!customMode && nextCustomMode) {
+      customAckEl.checked = false;
+    }
+
+    customMode = nextCustomMode;
+
+    customModeNotice.hidden = !customMode;
+    customAckWrap.hidden = !customMode;
+    scaleCard.hidden = customMode;
+    defaultGuide.hidden = customMode;
+
+    if (!customMode) {
+      customAckEl.checked = false;
+    }
+
+    resultEl.hidden = true;
+    validationEl.textContent = "";
+    updateSubmitState();
+  }
+
+  function formIsReady() {
+    const questionReady =
+      questionEl.value.trim().length >=
+      CONFIG.MIN_QUESTION_CHARS;
+
+    const answerReady =
+      answerEl.value.trim().length >=
+      CONFIG.MIN_ANSWER_CHARS;
+
+    const customReady =
+      !customMode || customAckEl.checked;
+
+    return (
+      questionReady &&
+      answerReady &&
+      consentEl.checked &&
+      customReady
+    );
+  }
+
+  function updateSubmitState() {
+    const ready = formIsReady();
+
+    submitEl.disabled = isSubmitting || !ready;
+    submitEl.classList.toggle(
+      "is-loading",
+      isSubmitting
+    );
+
+    readyNote.hidden = ready || isSubmitting;
+  }
+
+  function validate() {
+    const question = questionEl.value.trim();
+    const answer = answerEl.value.trim();
+
+    if (
+      question.length < CONFIG.MIN_QUESTION_CHARS
+    ) {
+      validationEl.textContent =
+        "문항을 10자 이상 작성해 주세요. / " +
+        "Please enter a question of at least 10 characters.";
+
+      questionEl.focus();
+      return false;
+    }
+
+    if (
+      answer.length < CONFIG.MIN_ANSWER_CHARS
+    ) {
+      validationEl.textContent =
+        "답안을 40자 이상 작성해 주세요. / " +
+        "Please write a response of at least 40 characters.";
+
+      answerEl.focus();
+      return false;
+    }
+
+    if (!consentEl.checked) {
+      validationEl.textContent =
+        "개인정보 미입력 확인란에 체크해 주세요. / " +
+        "Please confirm that no personal information has been entered.";
+
+      consentEl.focus();
+      return false;
+    }
+
+    if (customMode && !customAckEl.checked) {
+      validationEl.textContent =
+        "맞춤 문항의 통계 미지원 확인란에 체크해 주세요. / " +
+        "Please confirm that statistics are unavailable for custom questions.";
+
+      customAckEl.focus();
+      return false;
+    }
+
+    return true;
+  }
+
+  function setLoadingMessage(message) {
+    loadingText.innerHTML =
+      message.ko +
+      '<span lang="en">' +
+      message.en +
+      "</span>";
+  }
+
+  function startLoading() {
+    loadingEl.hidden = false;
+    resultEl.hidden = true;
+    isSubmitting = true;
+    updateSubmitState();
+    progressBar.style.width = "8%";
+
+    const messages = customMode
+      ? customLoadingMessages
+      : defaultLoadingMessages;
+
+    let progress = 8;
+    let messageIndex = 0;
+
+    setLoadingMessage(messages[0]);
+
+    progressTimer = window.setInterval(function () {
+      progress = Math.min(
+        92,
+        progress + Math.random() * 12
+      );
+
+      progressBar.style.width = progress + "%";
+    }, 650);
+
+    loadingTextTimer = window.setInterval(function () {
+      messageIndex =
+        (messageIndex + 1) % messages.length;
+
+      setLoadingMessage(messages[messageIndex]);
+    }, 1700);
+
+    loadingEl.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
+
+  function stopLoading() {
+    window.clearInterval(progressTimer);
+    window.clearInterval(loadingTextTimer);
+    progressBar.style.width = "100%";
+
+    window.setTimeout(function () {
+      loadingEl.hidden = true;
+      isSubmitting = false;
+      updateSubmitState();
+    }, 300);
+  }
+
+  function formatSigned(value) {
+    const number = Number(value);
+
+    if (!Number.isFinite(number)) {
+      return "-";
+    }
+
+    if (number > 0) {
+      return "+" + number.toFixed(2);
+    }
+
+    return number.toFixed(2);
+  }
+
+  function renderLevel(level) {
+    const levels = {
+      "상": {
+        ko: "상",
+        en: "High"
+      },
+      "중": {
+        ko: "중",
+        en: "Medium"
+      },
+      "하": {
+        ko: "하",
+        en: "Low"
+      }
+    };
+
+    const value = levels[level] || {
+      ko: level,
+      en: ""
+    };
+
+    root.querySelector("#lme-score-main").innerHTML =
+      value.ko +
+      (
+        value.en
+          ? '<small lang="en">' +
+            value.en +
+            "</small>"
+          : ""
+      );
+  }
+
+  function renderResult(data) {
+    const isCustom = data.mode === "custom";
+
+    defaultResultHeading.hidden = isCustom;
+    customResultHeading.hidden = !isCustom;
+    defaultStats.hidden = isCustom;
+
+    root.querySelector(
+      "#lme-review-badge"
+    ).hidden = !data.needsReview;
+
+    const feedbackLanguage =
+      typeof data.answerLanguage === "string"
+        ? data.answerLanguage
+        : "";
+
+    const strengthEl =
+      root.querySelector("#lme-strength-text");
+
+    const improvementEl =
+      root.querySelector("#lme-improvement-text");
+
+    strengthEl.lang = feedbackLanguage;
+    improvementEl.lang = feedbackLanguage;
+
+    strengthEl.textContent =
+      data.strength ||
+      "답안에서 문항과 관련된 핵심 내용을 확인할 수 있습니다.";
+
+    improvementEl.textContent =
+      data.improvement ||
+      "문항의 요구와 근거를 더 구체적으로 연결할 필요가 있습니다.";
+
+    if (isCustom) {
+      const label =
+        data.subjectLabel ||
+        SUBJECT_LABELS[subjectEl.value] ||
+        SUBJECT_LABELS.music;
+
+      customResultSubject.textContent =
+        "선택 교과: " +
+        label.ko +
+        " / Subject: " +
+        label.en;
+    } else {
+      const isFive =
+        selectedScale === "five";
+
+      const score = Number(data.score);
+      const scoreMax =
+        Number(data.scoreMax || 5);
+      const level = data.level || "중";
+      const total =
+        Number(data.totalRespondents || 1);
+      const rank = Number(data.rank || 1);
+      const topPercent = Math.max(
+        0,
+        Math.min(
+          100,
+          Number(data.topPercent || 100)
+        )
+      );
+      const mean = Number(data.mean);
+      const std =
+        Number(data.standardDeviation);
+      const zScore = Number(data.zScore);
+
+      if (isFive) {
+        root.querySelector(
+          "#lme-score-main"
+        ).textContent = score.toFixed(1);
+      } else {
+        renderLevel(level);
+      }
+
+      root.querySelector(
+        "#lme-score-sub"
+      ).textContent = isFive
+        ? scoreMax.toFixed(1) +
+          "점 만점 / Out of " +
+          scoreMax.toFixed(1)
+        : "3수준 평가 / Three-Level Assessment";
+
+      root.querySelector(
+        "#lme-total"
+      ).textContent =
+        total.toLocaleString("ko-KR");
+
+      root.querySelector(
+        "#lme-rank"
+      ).textContent =
+        rank.toLocaleString("ko-KR");
+
+      root.querySelector(
+        "#lme-top-percent"
+      ).textContent =
+        topPercent.toFixed(1) + "%";
+
+      root.querySelector(
+        "#lme-percent-fill"
+      ).style.width =
+        Math.max(6, 100 - topPercent) + "%";
+
+      root.querySelector(
+        "#lme-mean"
+      ).textContent =
+        Number.isFinite(mean)
+          ? mean.toFixed(2)
+          : "-";
+
+      root.querySelector(
+        "#lme-std"
+      ).textContent =
+        Number.isFinite(std)
+          ? std.toFixed(2)
+          : "-";
+
+      root.querySelector(
+        "#lme-zscore"
+      ).textContent =
+        Number.isFinite(zScore)
+          ? "z = " + formatSigned(zScore)
+          : "-";
+    }
+
+    resultEl.hidden = false;
+
+    resultEl.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+  function createDemoResult(answer) {
+    if (customMode) {
+      return Promise.resolve({
+        mode: "custom",
+        statisticsSupported: false,
+        subject: subjectEl.value,
+        subjectLabel:
+          SUBJECT_LABELS[subjectEl.value],
+        answerLanguage: "ko",
+        strength:
+          "답안이 문항의 핵심 요구에 직접 응답하고 있으며, 주요 개념을 비교적 명확하게 설명했습니다.",
+        improvement:
+          "주장의 근거와 구체적인 사례를 추가하면 설명의 설득력과 완결성이 높아집니다.",
+        needsReview: false
+      });
+    }
+
+    return Promise.resolve({
+      mode: "default",
+      statisticsSupported: true,
+      score: 3.8,
+      scoreMax: 5,
+      level: "중",
+      totalRespondents: 48,
+      rank: 7,
+      topPercent: 14.6,
+      mean: 3.25,
+      standardDeviation: .72,
+      zScore: .76,
+      answerLanguage: "ko",
+      strength:
+        "세 장르의 공통적인 성악적 특성과 공연 방식의 차이를 구분하여 설명했습니다.",
+      improvement:
+        "칸타타와 오라토리오의 규모, 목적, 종교적·세속적 성격을 비교 기준별로 더 명확히 제시할 필요가 있습니다.",
+      needsReview: false
+    });
+  }
+
+  async function requestEvaluation(
+    subject,
+    question,
+    answer,
+    scale
+  ) {
+    if (CONFIG.DEMO_MODE) {
+      return createDemoResult(answer);
+    }
+
+    const controller = new AbortController();
+
+    const timeoutId = window.setTimeout(
+      function () {
+        controller.abort();
+      },
+      CONFIG.REQUEST_TIMEOUT_MS
+    );
+
+    try {
+      const response = await fetch(
+        CONFIG.API_URL,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            subject: subject,
+            question: question,
+            scaleType: scale,
+            answer: answer,
+            customModeAcknowledged:
+              customMode && customAckEl.checked,
+            privacyConfirmed:
+              consentEl.checked,
+            source: "vercel_qr_demo"
+          }),
+          signal: controller.signal
+        }
+      );
+
+      const responseText =
+        await response.text();
+
+      let data;
+
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        throw new Error(
+          "서버 응답을 해석하지 못했습니다. / " +
+          "The server response could not be parsed."
+        );
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data.error ||
+          (
+            "평가 서버 오류: " +
+            response.status
+          )
+        );
+      }
+
+      if (
+        typeof data.mode !== "string" ||
+        typeof data.strength !== "string" ||
+        typeof data.improvement !== "string"
+      ) {
+        throw new Error(
+          "서버 응답 형식이 올바르지 않습니다. / " +
+          "The server response format is invalid."
+        );
+      }
+
+      if (
+        data.mode === "default" &&
+        (
+          typeof data.score !== "number" ||
+          typeof data.level !== "string"
+        )
+      ) {
+        throw new Error(
+          "기본 문항의 점수 응답 형식이 올바르지 않습니다. / " +
+          "The default-question score response is invalid."
+        );
+      }
+
+      return data;
+    } finally {
+      window.clearTimeout(timeoutId);
+    }
+  }
+
+  function showRequestError(error) {
+    if (
+      error &&
+      error.name === "AbortError"
+    ) {
+      validationEl.textContent =
+        "평가 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요. / " +
+        "The request timed out. Please try again shortly.";
+    } else {
+      validationEl.textContent =
+        error instanceof Error &&
+        error.message
+          ? error.message
+          : (
+              "평가 요청을 처리하지 못했습니다. 관리자에게 문의해 주세요. / " +
+              "The assessment request could not be processed."
+            );
+    }
+
+    console.error(
+      "[LLM AI 평가도구]",
+      error
+    );
+
+    answerEl.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
+
+  scaleButtons.forEach(function (button) {
+    button.addEventListener(
+      "click",
+      function () {
+        setScale(button.dataset.scale);
+      }
+    );
+  });
+
+  subjectEl.addEventListener(
+    "change",
+    updateMode
+  );
+
+  questionEl.addEventListener(
+    "input",
+    function () {
+      updateCounters();
+      updateMode();
+    }
+  );
+
+  answerEl.addEventListener(
+    "input",
+    function () {
+      updateCounters();
+      validationEl.textContent = "";
+      updateSubmitState();
+    }
+  );
+
+  consentEl.addEventListener(
+    "change",
+    function () {
+      validationEl.textContent = "";
+      updateSubmitState();
+    }
+  );
+
+  customAckEl.addEventListener(
+    "change",
+    function () {
+      validationEl.textContent = "";
+      updateSubmitState();
+    }
+  );
+
+  restoreEl.addEventListener(
+    "click",
+    function () {
+      subjectEl.value = DEFAULT_SUBJECT;
+      questionEl.value = DEFAULT_QUESTION;
+      customAckEl.checked = false;
+      updateCounters();
+      updateMode();
+      questionEl.focus();
+    }
+  );
+
+  submitEl.addEventListener(
+    "click",
+    async function () {
+      if (!validate()) {
+        updateSubmitState();
+        return;
+      }
+
+      const subject = subjectEl.value;
+      const question = questionEl.value.trim();
+      const answer = answerEl.value.trim();
+
+      validationEl.textContent = "";
+      startLoading();
+
+      try {
+        const data = await requestEvaluation(
+          subject,
+          question,
+          answer,
+          selectedScale
+        );
+
+        stopLoading();
+
+        window.setTimeout(function () {
+          renderResult(data);
+        }, 360);
+      } catch (error) {
+        stopLoading();
+        showRequestError(error);
+      }
+    }
+  );
+
+  root.querySelector(
+    "#lme-retry"
+  ).addEventListener(
+    "click",
+    function () {
+      resultEl.hidden = true;
+      answerEl.value = "";
+      consentEl.checked = false;
+      validationEl.textContent = "";
+      updateCounters();
+      updateSubmitState();
+      answerEl.focus();
+
+      root.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  );
+
+  subjectEl.value = DEFAULT_SUBJECT;
+  questionEl.value = DEFAULT_QUESTION;
+  updateCounters();
+  setScale("three");
+  updateMode();
+})();
+</script>
+</body>
+</html>
