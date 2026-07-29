@@ -1560,13 +1560,13 @@
       isFive ? "/ " + scoreMax.toFixed(1) + "점" : "3수준 평가";
 
     root.querySelector("#lme-total").textContent =
-      total.toLocaleString("ko-KR") + "명";
+      total.toLocaleString("ko-KR");
 
     root.querySelector("#lme-rank").textContent =
-      data.rankLabel || ("공동 " + rank.toLocaleString("ko-KR") + "위");
+      data.rankLabel || ("공동 " + rank.toLocaleString("ko-KR"););
 
     root.querySelector("#lme-top-percent").textContent =
-      "상위 " + topPercent.toFixed(1) + "%";
+      "Top " + topPercent.toFixed(1) + "%";
 
     /*
       상위 10%일수록 막대가 길게 보이도록 100 - 상위비율을 사용합니다.
