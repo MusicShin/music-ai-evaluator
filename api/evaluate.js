@@ -48,13 +48,17 @@ const EVALUATION_SCHEMA = {
       description: "문장이 명확하고 비교 구조가 논리적인 정도"
     },
     strength: {
-      type: "string",
-      description: "답안의 실제 표현을 근거로 작성한 구체적 강점 피드백"
-    },
-    improvement: {
-      type: "string",
-      description: "더 나은 답안으로 발전시키기 위한 구체적 보완점"
-    },
+  type: "string",
+  description:
+    "답안의 실제 표현을 근거로 작성한 구체적 강점 피드백. " +
+    "반드시 답안에서 주로 사용된 언어와 같은 언어로 작성한다."
+},
+improvement: {
+  type: "string",
+  description:
+    "더 나은 답안으로 발전시키기 위한 구체적 보완점. " +
+    "반드시 답안에서 주로 사용된 언어와 같은 언어로 작성한다."
+},
     needs_review: {
       type: "boolean",
       description: "답안이 모호하거나 평가가 불확실하여 사람이 검토할 필요가 있는지"
