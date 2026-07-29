@@ -101,66 +101,227 @@
       </section>
 
       <section class="lme-card" aria-labelledby="lme-scale-title">
-        <div class="lme-section-label">평가 방식 선택</div>
-        <h2 id="lme-scale-title" class="lme-small-title">결과를 어떤 척도로 확인하시겠습니까?</h2>
+  <div class="lme-section-label">
+    평가 방식 선택
+    <span class="lme-section-label-en" lang="en">
+      Assessment Scale
+    </span>
+  </div>
 
-        <div class="lme-segmented" role="radiogroup" aria-label="평가 척도 선택">
-          <button type="button" class="lme-scale-button is-active" data-scale="three"
-                  role="radio" aria-checked="true">
-            <strong>상·중·하</strong>
-            <span>3수준 성취도</span>
-          </button>
-          <button type="button" class="lme-scale-button" data-scale="five"
-                  role="radio" aria-checked="false">
-            <strong>5점 척도</strong>
-            <span>0–5점 점수</span>
-          </button>
-        </div>
+  <h2 id="lme-scale-title" class="lme-small-title">
+    결과를 어떤 척도로 확인하시겠습니까?
+    <span class="lme-ui-title-en" lang="en">
+      How would you like to view your result?
+    </span>
+  </h2>
 
-        <details class="lme-rubric">
-          <summary>평가 기준 살펴보기</summary>
-          <div class="lme-rubric-grid">
-            <div><b>장르 개념</b><span>세 장르의 성격을 정확히 설명했는가</span></div>
-            <div><b>공통점</b><span>성악과 기악 반주 등의 공통점을 제시했는가</span></div>
-            <div><b>차이점</b><span>무대 연출, 종교성, 규모를 비교했는가</span></div>
-            <div><b>구체성</b><span>작품·작곡가 또는 공연 맥락을 활용했는가</span></div>
-            <div><b>표현</b><span>문장이 명확하고 비교 구조가 논리적인가</span></div>
-          </div>
-        </details>
-      </section>
+  <div
+    class="lme-segmented"
+    role="radiogroup"
+    aria-label="평가 척도 선택 / Select an assessment scale"
+  >
+    <button
+      type="button"
+      class="lme-scale-button is-active"
+      data-scale="three"
+      role="radio"
+      aria-checked="true"
+    >
+      <strong>상·중·하</strong>
+      <span>3수준 성취도</span>
+      <span class="lme-option-en" lang="en">
+        High · Medium · Low
+      </span>
+      <span class="lme-option-description-en" lang="en">
+        Three-level achievement scale
+      </span>
+    </button>
 
-      <section class="lme-card" aria-labelledby="lme-answer-title">
-        <div class="lme-section-label">답안 작성</div>
-        <div class="lme-answer-heading">
-          <h2 id="lme-answer-title" class="lme-small-title">자신의 언어로 자유롭게 서술해주세요.</h2>
-          <span id="lme-char-count">0 / 1,000자</span>
-        </div>
+    <button
+      type="button"
+      class="lme-scale-button"
+      data-scale="five"
+      role="radio"
+      aria-checked="false"
+    >
+      <strong>5점 척도</strong>
+      <span>0–5점 점수</span>
+      <span class="lme-option-en" lang="en">
+        Five-Point Scale
+      </span>
+      <span class="lme-option-description-en" lang="en">
+        Scores from 0 to 5
+      </span>
+    </button>
+  </div>
 
-        <textarea id="lme-answer"
-          maxlength="1000"
-          rows="10"
-          spellcheck="true"
-          placeholder="예: 세 장르는 모두 성악과 기악 반주를 활용하지만, 오페라는 무대 연기와 의상·장치가 결합된 음악극이라는 점에서..."></textarea>
+  <details class="lme-rubric">
+    <summary>
+      평가 기준 살펴보기
+      <span class="lme-summary-en" lang="en">
+        View Assessment Criteria
+      </span>
+    </summary>
 
-        <div id="lme-validation" class="lme-validation" role="alert" aria-live="polite"></div>
-
-        <label class="lme-consent">
-          <input type="checkbox" id="lme-consent-checkbox">
-          <span>
-            본 체험은 익명으로 진행되며, 이름·연락처 등 개인정보를 입력하지 않았음을 확인합니다.
+    <div class="lme-rubric-grid">
+      <div>
+        <b>
+          장르 개념
+          <span class="lme-rubric-title-en" lang="en">
+            Genre Concepts
           </span>
-        </label>
+        </b>
 
-        <button type="button" id="lme-submit" class="lme-submit">
-          <span class="lme-submit-text">AI 평가 시작하기</span>
-          <span class="lme-submit-arrow" aria-hidden="true">→</span>
-        </button>
+        <span>
+          세 장르의 성격을 정확히 설명했는가
+          <span class="lme-rubric-en" lang="en">
+            Accurately explains the characteristics of the three genres
+          </span>
+        </span>
+      </div>
 
-        <p class="lme-notice">
-          본 결과는 학회 시연을 위한 AI 보조 평가이며, 실제 교육평가의 최종 판단을 대신하지 않습니다.
-        </p>
-      </section>
+      <div>
+        <b>
+          공통점
+          <span class="lme-rubric-title-en" lang="en">
+            Similarities
+          </span>
+        </b>
 
+        <span>
+          성악과 기악 반주 등의 공통점을 제시했는가
+          <span class="lme-rubric-en" lang="en">
+            Identifies shared features such as vocal music and instrumental accompaniment
+          </span>
+        </span>
+      </div>
+
+      <div>
+        <b>
+          차이점
+          <span class="lme-rubric-title-en" lang="en">
+            Differences
+          </span>
+        </b>
+
+        <span>
+          무대 연출, 종교성, 규모를 비교했는가
+          <span class="lme-rubric-en" lang="en">
+            Compares staging, sacred or secular character, and scale
+          </span>
+        </span>
+      </div>
+
+      <div>
+        <b>
+          구체성
+          <span class="lme-rubric-title-en" lang="en">
+            Specificity
+          </span>
+        </b>
+
+        <span>
+          작품·작곡가 또는 공연 맥락을 활용했는가
+          <span class="lme-rubric-en" lang="en">
+            Uses examples of works, composers, or performance contexts
+          </span>
+        </span>
+      </div>
+
+      <div>
+        <b>
+          표현
+          <span class="lme-rubric-title-en" lang="en">
+            Expression
+          </span>
+        </b>
+
+        <span>
+          문장이 명확하고 비교 구조가 논리적인가
+          <span class="lme-rubric-en" lang="en">
+            Presents ideas clearly and organizes the comparison logically
+          </span>
+        </span>
+      </div>
+    </div>
+  </details>
+</section>
+
+<section class="lme-card" aria-labelledby="lme-answer-title">
+  <div class="lme-section-label">
+    답안 작성
+    <span class="lme-section-label-en" lang="en">
+      Write Your Response
+    </span>
+  </div>
+
+  <div class="lme-answer-heading">
+    <h2 id="lme-answer-title" class="lme-small-title">
+      자신의 언어로 자유롭게 서술해 주세요.
+      <span class="lme-ui-title-en" lang="en">
+        Please respond freely in your preferred language.
+      </span>
+    </h2>
+
+    <span id="lme-char-count">
+      0 / 1,000
+    </span>
+  </div>
+
+  <textarea
+    id="lme-answer"
+    maxlength="1000"
+    rows="10"
+    spellcheck="true"
+    aria-label="답안 작성 / Write your response"
+    placeholder="예: 세 장르는 모두 성악과 기악 반주를 활용하지만… / Example: All three genres combine vocal music with instrumental accompaniment, but…"
+  ></textarea>
+
+  <div
+    id="lme-validation"
+    class="lme-validation"
+    role="alert"
+    aria-live="polite"
+  ></div>
+
+  <label class="lme-consent">
+    <input type="checkbox" id="lme-consent-checkbox">
+
+    <span class="lme-consent-copy">
+      <span>
+        본 체험은 익명으로 진행되며, 이름·연락처 등 개인정보를 입력하지 않았음을 확인합니다.
+      </span>
+
+      <span class="lme-consent-en" lang="en">
+        I confirm that this anonymous demonstration does not contain personal information such as my name or contact details.
+      </span>
+    </span>
+  </label>
+
+  <button type="button" id="lme-submit" class="lme-submit">
+    <span class="lme-submit-text">
+      <span>AI 평가 시작하기</span>
+      <span class="lme-submit-en" lang="en">
+        Start AI Assessment
+      </span>
+    </span>
+
+    <span class="lme-submit-arrow" aria-hidden="true">
+      →
+    </span>
+  </button>
+
+  <p class="lme-notice">
+    <span>
+      본 결과는 학회 시연을 위한 AI 보조 평가이며, 실제 교육평가의 최종 판단을 대신하지 않습니다.
+    </span>
+
+    <span class="lme-notice-en" lang="en">
+      This AI-assisted result is provided for conference demonstration purposes and does not replace final educational assessment by an instructor.
+    </span>
+  </p>
+</section>
+            
       <section id="lme-loading" class="lme-card lme-loading" hidden aria-live="polite">
         <div class="lme-loader" aria-hidden="true">
           <span></span><span></span><span></span>
@@ -965,6 +1126,126 @@
       margin-top: 10px;
     }
   }
+    #llm-music-evaluator .lme-section-label-en {
+    margin-left: 7px;
+    color: #71809f;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+  }
+  
+  #llm-music-evaluator .lme-ui-title-en {
+    display: block;
+    margin-top: 3px;
+    color: #727d93;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.45;
+    letter-spacing: 0;
+  }
+  
+  #llm-music-evaluator .lme-option-en {
+    display: block;
+    margin-top: 5px;
+    color: #53617d !important;
+    font-size: 12px !important;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  
+  #llm-music-evaluator .lme-option-description-en {
+    display: block;
+    color: #8892a4 !important;
+    font-size: 10.5px !important;
+    line-height: 1.35;
+  }
+  
+  #llm-music-evaluator .lme-summary-en {
+    margin-left: 6px;
+    color: #71809f;
+    font-size: 11px;
+    font-weight: 650;
+  }
+  
+  #llm-music-evaluator .lme-rubric-grid > div {
+    grid-template-columns: 120px 1fr;
+  }
+  
+  #llm-music-evaluator .lme-rubric-title-en {
+    display: block;
+    margin-top: 2px;
+    color: #71809f !important;
+    font-size: 10px;
+    font-weight: 650;
+    line-height: 1.3;
+  }
+  
+  #llm-music-evaluator .lme-rubric-en {
+    display: block;
+    margin-top: 3px;
+    color: #8791a3 !important;
+    font-size: 10.5px;
+    line-height: 1.4;
+  }
+  
+  #llm-music-evaluator .lme-consent-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  
+  #llm-music-evaluator .lme-consent-en {
+    color: #8791a3;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  
+  #llm-music-evaluator .lme-submit-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.25;
+  }
+  
+  #llm-music-evaluator .lme-submit-en {
+    margin-top: 2px;
+    font-size: 10.5px;
+    font-weight: 650;
+    opacity: .84;
+  }
+  
+  #llm-music-evaluator .lme-notice span {
+    display: block;
+  }
+  
+  #llm-music-evaluator .lme-notice-en {
+    margin-top: 3px;
+    font-size: 10.5px;
+    line-height: 1.45;
+  }
+  
+  #llm-music-evaluator .lme-validation {
+    white-space: normal;
+  }
+  
+  @media (max-width: 680px) {
+    #llm-music-evaluator .lme-rubric-grid > div {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  
+    #llm-music-evaluator .lme-ui-title-en {
+      font-size: 11.5px;
+    }
+  
+    #llm-music-evaluator .lme-option-en {
+      font-size: 11px !important;
+    }
+  
+    #llm-music-evaluator .lme-option-description-en {
+      font-size: 9.5px !important;
+    }
+  }
 </style>
 
 <script>
@@ -1023,29 +1304,38 @@
   });
 
   answerEl.addEventListener("input", function () {
-    countEl.textContent = answerEl.value.length.toLocaleString("ko-KR") + " / 1,000자";
+    countEl.textContent =
+      answerEl.value.length.toLocaleString("ko-KR") + " / 1,000";
     validationEl.textContent = "";
   });
 
   function validate() {
     const answer = answerEl.value.trim();
-
+  
     if (answer.length < CONFIG.MIN_CHARS) {
       validationEl.textContent =
-        "비교가 드러나도록 " + CONFIG.MIN_CHARS + "자 이상 작성해주세요.";
+        "비교가 드러나도록 " +
+        CONFIG.MIN_CHARS +
+        "자 이상 작성해 주세요. / " +
+        "Please write at least " +
+        CONFIG.MIN_CHARS +
+        " characters and include a clear comparison.";
+  
       answerEl.focus();
       return false;
     }
-
+  
     if (!consentEl.checked) {
-      validationEl.textContent = "개인정보 미입력 확인란에 체크해주세요.";
+      validationEl.textContent =
+        "개인정보 미입력 확인란에 체크해 주세요. / " +
+        "Please confirm that no personal information has been entered.";
+  
       consentEl.focus();
       return false;
     }
-
+  
     return true;
   }
-
   function startLoading() {
     loadingEl.hidden = false;
     resultEl.hidden = true;
@@ -1272,7 +1562,7 @@
   root.querySelector("#lme-retry").addEventListener("click", function () {
     resultEl.hidden = true;
     answerEl.value = "";
-    countEl.textContent = "0 / 1,000자";
+    countEl.textContent = "0 / 1,000";
     consentEl.checked = false;
     validationEl.textContent = "";
     answerEl.focus();
